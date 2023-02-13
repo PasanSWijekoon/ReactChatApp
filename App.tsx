@@ -161,9 +161,9 @@ function itemUI({item}) {
   return ui;
 }
 
-const  [chathistory,setChatHistory] = useState([]);
-function chat() {
 
+function chat() {
+  const  [chathistory,setChatHistory] = useState([]);
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {

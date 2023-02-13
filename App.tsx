@@ -161,54 +161,25 @@ function itemUI({item}) {
   return ui;
 }
 
-const chathistory = [
-  {
-    msg: 'Hello pasan',
-    time: '9:39 PM',
-    side: 'right',
-    status: 'seen',
-  },
-
-  {
-    msg: 'ඔව් කියන්න',
-    time: '9:40 PM',
-    side: 'left',
-    status: 'seen',
-  },
-
-  {
-    msg: 'මම Mia',
-    time: '9:41 PM',
-    side: 'right',
-    status: 'seen',
-  },
-  {
-    msg: 'ඔව් කියන්න',
-    time: '9:40 PM',
-    side: 'left',
-    status: 'seen',
-  },
-  {
-    msg: 'මට උදව්වක් කරන්න පුලුවන්ද',
-    time: '9:40 PM',
-    side: 'right',
-    status: 'seen',
-  },
-  {
-    msg: 'මෙතන lana ත් ඉන්නව',
-    time: '9:40 PM',
-    side: 'right',
-    status: 'seen',
-  },
-
-  {
-    msg: 'Hello මන් Lana',
-    time: '9:40 PM',
-    side: 'right',
-    status: 'seen',
-  },
-];
+const  [chathistory,setChatHistory] = useState([]);
 function chat() {
+
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (request.readyState == 4 && request.status == 200) {
+      var response = request.responseText;
+      var JS_object = JSON.parse(response);
+      setChatHistory(JS_object);
+    }
+  };
+
+  request.open('GET', 'http://10.0.2.2/react_chat_php/load_chat.php', true);
+  request.send();
+
+
+
+
+
   const ui = (
     <SafeAreaView style={styles.chat}>
       <Text style={styles.hometext1}>Chat</Text>
@@ -554,4 +525,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default signIn;
+export default chat;

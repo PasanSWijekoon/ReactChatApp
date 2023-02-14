@@ -17,6 +17,9 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import { SelectList } from 'react-native-dropdown-select-list';
 
 function signIn() {
+
+  const  [mobile,setmobile] = useState(null);
+  const  [password,setpassword] = useState(null);
   const ui = (
     <SafeAreaView style={styles.signInmain}>
       <Image
@@ -27,16 +30,16 @@ function signIn() {
 
       <View style={styles.signinview1}>
         <Icon style={styles.signinIcon1} name="user"></Icon>
-        <TextInput style={styles.signinput11} autoCorrect={false} inputMode={"numeric"} maxLength={10} placeholder="Your Mobile No"></TextInput>
+        <TextInput style={styles.signinput11} autoCorrect={false} inputMode={"numeric"} maxLength={10} placeholder="Your Mobile No" onChangeText={setmobile}></TextInput>
       </View>
       <View style={styles.signinview1}>
         <Icon style={styles.signinIcon1} name="lock"></Icon>
         <TextInput
           style={styles.signinput11}
-          secureTextEntry={true}  placeholder="Your Password"></TextInput>
+          secureTextEntry={true}  placeholder="Your Password" onChangeText={setpassword}></TextInput>
       </View>
 
-     <Pressable style={styles.signinpbutton}  >
+     <Pressable style={styles.signinpbutton}  onPress={signinprocess} >
       <Text style={styles.signinbuttontest} >Sign In </Text>
        </Pressable>
      <Pressable style={styles.signupbutton} > 
@@ -45,7 +48,29 @@ function signIn() {
     </SafeAreaView>
   );
   return ui;
-}
+  function signinprocess(){
+
+
+    var jsRequestObject = {"mobile":mobile,"password":password};
+    var jsonreqesttext = JSON.stringify(jsRequestObject);
+    var formData = new FormData();
+    formData.append("jsonreqesttext",jsonreqesttext);
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+      if (request.readyState == 4 && request.status == 200) {
+        var response = request.responseText;
+        //var JS_object = JSON.parse(response);
+        Alert.alert('Response', response);
+      }
+    };
+
+    request.open('POST', 'http://10.0.2.2/react_chat_php/signin.php', true);
+    request.send(formData);
+  }
+
+  }
+
 
 function signUp() {
   const ui = (
@@ -525,4 +550,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default chat;
+export default signIn;

@@ -15,6 +15,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { SelectList } from 'react-native-dropdown-select-list';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function signIn() {
 
@@ -48,7 +49,9 @@ function signIn() {
     </SafeAreaView>
   );
   return ui;
-  function signinprocess(){
+ function signinprocess(){
+
+    
 
 
     var jsRequestObject = {"mobile":mobile,"password":password};
@@ -66,7 +69,16 @@ function signIn() {
           Alert.alert('Message', "Invalid");
 
         }else{
-          Alert.alert('Message', "Hello " +JS_object.user.name);
+     
+          //AsyncStorage.setItem("user",JSON.stringify(JS_object.user));
+        
+var userobj = JS_object.user;
+Alert.alert('Message', "Hello " +userobj.name);
+        AsyncStorage.setItem("user",JSON.stringify(userobj));
+
+  
+      
+   
 
         }
       }
@@ -195,7 +207,17 @@ function itemUI({item}) {
 
 
 function chat() {
+
+  const [name,setName ] = useState(null);
+
+ async function naime (){
+  var userJsonText = await AsyncStorage.getItem("user");
+  var userJsonobj = JSON.parse(userJsonText);
+setName(userJsonobj.name);
+}
+naime();
   const  [chathistory,setChatHistory] = useState([]);
+
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
     if (request.readyState == 4 && request.status == 200) {
@@ -220,7 +242,7 @@ function chat() {
           uri: 'https://images.genius.com/e482c3132d4b0d375089e6e422e7913d.624x550x1.jpg',
         }}
         style={styles.itemImage}></Image>
-      <Text style={styles.chattext2}>Mia Khalifa</Text>
+      <Text style={styles.chattext2}>{name}</Text>
 
       <FlatList
         data={chathistory}
@@ -557,4 +579,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default signIn;
+export default chat;

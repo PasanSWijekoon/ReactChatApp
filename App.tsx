@@ -60,8 +60,15 @@ function signIn() {
     request.onreadystatechange = function () {
       if (request.readyState == 4 && request.status == 200) {
         var response = request.responseText;
-        //var JS_object = JSON.parse(response);
-        Alert.alert('Response', response);
+        var JS_object = JSON.parse(response);
+        if(JS_object.msg=="Error"){
+
+          Alert.alert('Message', "Invalid");
+
+        }else{
+          Alert.alert('Message', "Hello " +JS_object.user.name);
+
+        }
       }
     };
 

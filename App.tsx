@@ -142,33 +142,45 @@ function signUp() {
   return ui;
 }
 
-const items = [
-  {
-    pic: 'https://images.genius.com/e482c3132d4b0d375089e6e422e7913d.624x550x1.jpg',
-    name: 'Mia Khalifa',
-    msg: 'Hi How Are You',
-    time: '9:39 PM',
-    count: '8',
-  },
 
-  {
-    pic: 'https://techstory.in/wp-content/uploads/2022/02/lana-rhoades-fb-1.jpg',
-    name: 'Lana Rhoades',
-    msg: 'Hi How Are You',
-    time: '9:39 PM',
-    count: '8',
-  },
-
-  {
-    pic: 'https://i2.wp.com/www.colombotelegraph.com/wp-content/uploads/2019/04/model-Piyumi-Hansamali-1.jpg?fit=960%2C959&ssl=1',
-    name: 'Piumi Hansamali',
-    msg: 'Hi How Are You',
-    time: '9:39 PM',
-    count: '8',
-  },
-];
 
 function home() {
+
+  const [items, setitems] = useState([
+  
+  
+  
+  ]);
+
+  async function loadfriends(){
+
+    const userJsonText = await AsyncStorage.getItem("user");
+    const formData = new FormData();
+    formData.append("userJsonText",userJsonText);
+  
+  
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+      if (request.readyState == 4 && request.status == 200) {
+  
+        var response = request.responseText;
+        var JS_object = JSON.parse(response);
+        setitems(JS_object);
+       
+        }
+      };
+   
+  
+    request.open('POST', 'http://10.0.2.2/react_chat_php/load_users.php', true);
+    request.send(formData);
+  
+  
+  
+  
+  }
+  loadfriends();
+
+
   const ui = (
     <SafeAreaView style={styles.home}>
       <Text style={styles.hometext1}>GB Whatsapp</Text>
@@ -579,4 +591,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default chat;
+export default home;

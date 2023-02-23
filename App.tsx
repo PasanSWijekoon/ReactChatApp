@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { SelectList } from 'react-native-dropdown-select-list';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 function signIn() {
 
@@ -92,55 +93,115 @@ Alert.alert('Message', "Hello " +userobj.name);
 
 
 function signUp() {
+
+  const [mobileNumber ,setmobile] = useState("");
   const ui = (
     <SafeAreaView style={styles.signUpmain}>
-      <Image
-        source={{
-          uri: 'https://www.edigitalagency.com.au/wp-content/uploads/OnlyFans-logo-symbol-icon-png-blue-background.png',
-        }}
-        style={styles.signUpimage}></Image>
 
-      <View style={styles.signupview1}>
-        <Icon style={styles.signupIcon1} name="user"></Icon>
-        <TextInput style={styles.signupinput11} autoCorrect={false}  placeholder="Your User Name"></TextInput>
-      </View>
-      <View style={styles.signinview1}>
-        <Icon style={styles.signinIcon1} name="mobile"></Icon>
-        <TextInput style={styles.signinput11} autoCorrect={false} inputMode={"numeric"} maxLength={10} placeholder="Your Mobile No"></TextInput>
-      </View>
-      <View style={styles.signinview1}>
-        <Icon style={styles.signinIcon1} name="lock"></Icon>
-        <TextInput
-          style={styles.signinput11}
-          secureTextEntry={true}  placeholder="Your Password"></TextInput>
-      </View>
-      <View style={styles.signinview1}>
-        <Icon style={styles.signinIcon1} name="lock"></Icon>
-        <TextInput
-          style={styles.signinput11}
-          secureTextEntry={true}  placeholder="Re enter Your Password"></TextInput>
-      </View>
-      <View style={styles.signinview1}>
-        <Icon style={styles.signinIcon1} name="map"></Icon>
+      <View style={styles2.view1}>
 
-        <ModalDropdown options={['Srilanka', 'India', 'Australia', 'London', 'Japan'] } defaultValue={"Select Your country"} style={styles.signupselect} 
-        
-        textStyle={{fontSize:15 } }  
-     
-        dropdownTextStyle={{fontSize:20}}  
-        />
-      </View>
+      <Text style={styles2.text1} >Mobile</Text>
+        <TextInput style={styles2.input1} autoCorrect={false} inputMode={"numeric"} maxLength={10} onChangeText={setmobile}></TextInput>
+</View>
 
-     <Pressable style={styles.signuppviewbutton}  >
-      <Text style={styles.signinbuttontest} >Sign Up </Text>
-       </Pressable>
-     <Pressable style={styles.signupviewbutton1} > 
-     <Text style={styles.signinbuttontest} >Back to sign In </Text>
-     </Pressable>
+
+<Button title='Select photo' onPress={imguplodingdigdong} />
+
+      <Button title='Send request' onPress={upload} />
+      
     </SafeAreaView>
   );
+
+
+  async function imguplodingdigdong(){
+
+    const options={
+      "mediaType":"photo",
+
+    };
+
+    const result = await launchImageLibrary(options);
+
+    if(result.didCancel){
+
+      Alert.alert("Message","No Image");
+
+    }else{
+
+
+      const imageobj ={
+        "uri":result.assets[0].uri,
+        "name":"profile.png",
+        "type":"image/png",
+      };
+      upload(imageobj);
+    }
+
+  }
+
+  function upload(imageobj){
+
+    var mobile = mobileNumber;
+    var picture = imageobj;
+  
+  
+    var form = new FormData();
+    form.append("mobile", mobile);
+    form.append("profile_picture", picture);
+  
+    var r = new XMLHttpRequest();
+    r.onreadystatechange = function () {
+  
+        if (r.readyState == 4 && r.status == 200) {
+  
+           Alert.alert("Response",r.responseText);
+        }
+  
+    };
+  
+  
+    r.open("POST", "http://10.0.2.2/file_uploading/index.php", true);
+  
+    r.send(form);
+  }
   return ui;
 }
+
+const styles2 = StyleSheet.create({
+
+  view1:{
+
+    flexDirection:"row",
+    alignItems:"center",
+     
+  },
+
+  text1:{
+    fontSize:20,
+    paddingEnd:10,
+  },
+
+  input1:{
+
+
+    width:"80%",
+    height:40,
+    fontSize:15,
+    borderRadius:10,
+    borderColor:"black",
+    borderWidth:1,
+    paddingStart:40,
+
+
+  },
+
+}
+
+);
+
+
+
+
 
 
 
@@ -591,4 +652,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default home;
+export default signUp;

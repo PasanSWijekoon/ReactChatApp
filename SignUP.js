@@ -21,7 +21,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import SelectDropdown from 'react-native-select-dropdown'
 
 
-export function SignUp() {
+export function SignUp({navigation}) {
 
   const [mobileNumber ,setmobile] = useState("");
   const [namew ,setname] = useState("");
@@ -69,7 +69,7 @@ export function SignUp() {
      <Pressable style={styles.signuppviewbutton} onPress={upload}  > 
       <Text style={styles.signinbuttontest} >Sign Up </Text>
        </Pressable>
-     <Pressable style={styles.signupviewbutton1} > 
+     <Pressable style={styles.signupviewbutton1}  onPress={() => navigation.navigate('SignIn')}> 
      <Text style={styles.signinbuttontest} >Back to sign In </Text>
      </Pressable>
 
@@ -148,6 +148,7 @@ var form = new FormData();
         if (r.readyState == 4 && r.status == 200) {
   
            Alert.alert("Response",r.responseText);
+           navigation.navigate("Home");
         }
   
     };

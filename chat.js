@@ -23,7 +23,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 
 
 
-export function Chat() {
+export function Chat({route,navigation}) {
 
   const [masege ,setmessage] = useState("");
 
@@ -32,10 +32,16 @@ export function Chat() {
  async function naime (){
   var userJsonText = await AsyncStorage.getItem("user");
   var userJsonobj = JSON.parse(userJsonText);
-setName(userJsonobj.name);
+setName(userJsonobj.id);
 }
 naime();
   const  [chathistory,setChatHistory] = useState([]);
+
+
+  const form = new FormData();
+  form.append("id1",name);
+  form.append("id2",route.params.id);
+
 
   var request = new XMLHttpRequest();
   request.onreadystatechange = function () {
@@ -46,8 +52,8 @@ naime();
     }
   };
 
-  request.open('GET', 'http://10.0.2.2/react_chat_php/load_chat.php', true);
-  request.send();
+  request.open('POST', 'http://10.0.2.2/react_chat_php/load_chat.php', true);
+  request.send(form);
 
 
 
@@ -58,10 +64,10 @@ naime();
       <Text style={styles.hometext1}>Chat</Text>
       <Image
         source={{
-          uri: 'https://images.genius.com/e482c3132d4b0d375089e6e422e7913d.624x550x1.jpg',
+          uri: route.params.img
         }}
         style={styles.itemImage}></Image>
-      <Text style={styles.chattext2}>{name}</Text>
+      <Text style={styles.chattext2}>{route.params.name}</Text>
 
       <FlatList
         data={chathistory}
@@ -92,7 +98,7 @@ naime();
   var fromJsonobj = JSON.parse(userJsonText);
     var reqestobject = {
       "from_user_id":fromJsonobj.id,
-      "from_to_id":1,
+      "from_to_id":route.params.id,
       "massage":masege,
 
     };

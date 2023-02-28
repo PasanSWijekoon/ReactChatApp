@@ -20,7 +20,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import SelectDropdown from 'react-native-select-dropdown'
 
-export function SignIn() {
+export function SignIn({navigation}) {
+
+  
 
   const  [mobile,setmobile] = useState(null);
   const  [password,setpassword] = useState(null);
@@ -46,7 +48,7 @@ export function SignIn() {
      <Pressable style={styles.signinpbutton}  onPress={signinprocess} >
       <Text style={styles.signinbuttontest} >Sign In </Text>
        </Pressable>
-     <Pressable style={styles.signupbutton} > 
+     <Pressable style={styles.signupbutton}   onPress={() => navigation.navigate('SignUp')} > 
      <Text style={styles.signinbuttontest} >Sign Up </Text>
      </Pressable>
     </SafeAreaView>
@@ -76,7 +78,7 @@ export function SignIn() {
           //AsyncStorage.setItem("user",JSON.stringify(JS_object.user));
         
 var userobj = JS_object.user;
-Alert.alert('Message', "Hello " +userobj.name);
+navigation.navigate("Home");
         AsyncStorage.setItem("user",JSON.stringify(userobj));
 
   
@@ -90,6 +92,7 @@ Alert.alert('Message', "Hello " +userobj.name);
     request.open('POST', 'http://10.0.2.2/react_chat_php/signin.php', true);
     request.send(formData);
   }
+
 
   }
 

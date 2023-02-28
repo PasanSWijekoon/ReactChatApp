@@ -94,11 +94,15 @@ function itemUI({item}) {
   );
 
   return ui;
-  
-}
-  function mmm(){
-    navigation.navigate("Chat");
+   function mmm(){
+
+ 
+
+   const obj = {"name":item.name,"id":item.id,"img":"http://10.0.2.2/react_chat_php/"+item.pic,};
+   navigation.navigate("Chat",obj);
   }
+}
+ 
 }
 
 

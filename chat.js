@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Button,
@@ -27,19 +27,16 @@ export function Chat({route,navigation}) {
 
   const [masege ,setmessage] = useState("");
 
-  const [name,setName ] = useState(null);
+  
 
- async function naime (){
-  var userJsonText = await AsyncStorage.getItem("user");
-  var userJsonobj = JSON.parse(userJsonText);
-setName(userJsonobj.id);
-}
-naime();
+
   const  [chathistory,setChatHistory] = useState([]);
 
-
+async function loadchatiko(){
+  var userJsonText = await AsyncStorage.getItem("user");
+  var userJsonobj = JSON.parse(userJsonText);
   const form = new FormData();
-  form.append("id1",name);
+  form.append("id1",userJsonobj.id);
   form.append("id2",route.params.id);
 
 
@@ -54,6 +51,9 @@ naime();
 
   request.open('POST', 'http://10.0.2.2/react_chat_php/load_chat.php', true);
   request.send(form);
+
+}
+
 
 
 
@@ -87,6 +87,11 @@ naime();
     </SafeAreaView>
   );
 
+  function start(){
+    setInterval(loadchatiko,5000);
+  }
+
+  useEffect(start,[]);
   return ui;
 
   function massegehso(){
@@ -113,7 +118,6 @@ naime();
       if (request.readyState == 4 && request.status == 200) {
   
         
-       
         }
       };
    

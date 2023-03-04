@@ -445,5 +445,3 @@ const styles = StyleSheet.create({
    
 
 });
-
-

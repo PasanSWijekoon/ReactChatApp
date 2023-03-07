@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect,useState} from 'react';
 import {
   Alert,
   Button,
@@ -34,12 +34,12 @@ export function Home({navigation}) {
   
   ]);
 
-  async function loadfriends(){
+  async function loadfriends(text){
 
     const userJsonText = await AsyncStorage.getItem("user");
     const formData = new FormData();
     formData.append("userJsonText",userJsonText);
-    formData.append("text", searchText);
+    formData.append("text",text);
   
   
     var request = new XMLHttpRequest();
@@ -61,7 +61,11 @@ export function Home({navigation}) {
   
   
   }
-  loadfriends();
+  function start(){
+   loadfriends(""); 
+  }
+  useEffect(start,[]);
+  
 
 
 
@@ -70,7 +74,7 @@ export function Home({navigation}) {
     <SafeAreaView style={styles.home}>
       <Text style={styles.hometext1}>GB Whatsapp</Text>
       <View style={styles.homeview1}>
-        <TextInput style={styles.homeinput1} autoCorrect={false} onChangeText={setSearchText}></TextInput>
+        <TextInput style={styles.homeinput1} autoCorrect={false} onChangeText={p} ></TextInput>
 
 
 <TouchableOpacity onPress={loadfriends}>
@@ -83,6 +87,14 @@ export function Home({navigation}) {
   );
 
   return ui;
+
+  function p(text){
+    setSearchText(text);
+    loadfriends(text);
+
+
+
+  }
 function itemUI({item}) {
   const ui = (
     <Pressable onPress={mmm}>
@@ -238,7 +250,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     width: '90%',
     borderRadius: 20,
-    fontSize: 20,
+    fontSize: 15,
     paddingLeft: 15,
     borderColor: 'black',
     paddingRight: 50,
@@ -251,6 +263,9 @@ const styles = StyleSheet.create({
   homeimage1: {
     position: 'absolute',
     right: 20,
+   // bottom:0,
+    top:-10,
+    
   },
 
   itemview1: {

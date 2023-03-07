@@ -25,6 +25,9 @@ import SelectDropdown from 'react-native-select-dropdown'
 
 export function Home({navigation}) {
 
+
+  const[searchText,setSearchText] = useState("");
+
   const [items, setitems] = useState([
   
   
@@ -36,6 +39,7 @@ export function Home({navigation}) {
     const userJsonText = await AsyncStorage.getItem("user");
     const formData = new FormData();
     formData.append("userJsonText",userJsonText);
+    formData.append("text", searchText);
   
   
     var request = new XMLHttpRequest();
@@ -60,13 +64,18 @@ export function Home({navigation}) {
   loadfriends();
 
 
+
+
   const ui = (
     <SafeAreaView style={styles.home}>
       <Text style={styles.hometext1}>GB Whatsapp</Text>
       <View style={styles.homeview1}>
-        <TextInput style={styles.homeinput1} autoCorrect={false}></TextInput>
+        <TextInput style={styles.homeinput1} autoCorrect={false} onChangeText={setSearchText}></TextInput>
 
+
+<TouchableOpacity onPress={loadfriends}>
         <Icon name="search" size={20} color="black" style={styles.homeimage1} />
+</TouchableOpacity>
       </View>
 
       <FlatList data={items} renderItem={itemUI} />

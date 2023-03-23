@@ -76,6 +76,8 @@ export function SignIn({navigation}) {
         }else{
      
           //AsyncStorage.setItem("user",JSON.stringify(JS_object.user));
+
+          
         
 var userobj = JS_object.user;
 navigation.navigate("Home");

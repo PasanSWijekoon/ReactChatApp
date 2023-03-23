@@ -22,10 +22,13 @@ function App(){
   const ui=(
 
 <NavigationContainer>
-<Stack.Navigator initialRouteName={checkUser!=null?"Home":"SignIn"}>
+<Stack.Navigator initialRouteName={"SignIn"}>
         <Stack.Screen name="SignIn" component={SignIn}/>
         <Stack.Screen name="SignUp" component={SignUp}/>
-        <Stack.Screen name="Home" component={Home}/>
+        <Stack.Screen name="Home" component={Home}  options={{
+				headerShown: false,
+				
+			}}/>
         <Stack.Screen name="Chat" component={Chat}/>
     
       </Stack.Navigator>

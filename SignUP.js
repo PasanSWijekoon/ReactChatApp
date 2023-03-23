@@ -57,10 +57,13 @@ export function SignUp({navigation}) {
           style={styles.signinput11}
           secureTextEntry={true}  placeholder="Re enter Your Password" onChangeText={setverifypassword}></TextInput>
       </View>
-      <View style={styles.signinview1}>
-        <Icon style={styles.signinIcon1} name="map"></Icon>
+      <View style={styles.signinput12}>
+        <Icon style={styles.signinIcon2} name="map"></Icon>
 
         <SelectDropdown  
+
+          buttonTextStyle={styles.dropdown1BtnTxtStyle}
+          buttonStyle={styles.dropdown1BtnStyle}
 	data={countries}
 	onSelect={setcountry}
 />
@@ -198,6 +201,23 @@ const styles2 = StyleSheet.create({
 
 
 const styles = StyleSheet.create({
+  dropdown1BtnStyle: {
+    width: '80%',
+    height: 30,
+    marginLeft:-20,
+  
+   
+  },
+
+  signinIcon2: {
+    fontSize:15,
+    position:"absolute",
+    start:15,
+    marginTop:10,
+
+  },
+  
+  dropdown1BtnTxtStyle: {color: 'gray', textAlign: 'left', fontSize: 15,  marginLeft:-5,   marginTop:5,},
   chatbarview: {
     width: '90%',
     flexDirection: 'row',
@@ -284,6 +304,17 @@ const styles = StyleSheet.create({
   home: {
     flex: 1,
     alignItems: 'center',
+  },
+
+  signinput12: {
+    width:"80%",
+    height:40,
+    
+    borderRadius:10,
+    borderColor:"black",
+    borderWidth:1,
+    paddingStart:40,
+
   },
 
   hometext1: {

@@ -25,6 +25,15 @@ import SelectDropdown from 'react-native-select-dropdown'
 
 export function Home({navigation}) {
 
+  const [username,setuserName ] = useState(null);
+
+  async function naime (){
+   var userJsonText = await AsyncStorage.getItem("user");
+   var userJsonobj = JSON.parse(userJsonText);
+   setuserName(userJsonobj.profile_url);
+ }
+ naime();
+
 
   const[searchText,setSearchText] = useState("");
 
@@ -69,10 +78,17 @@ export function Home({navigation}) {
 
 
 
-
   const ui = (
+    
     <SafeAreaView style={styles.home}>
-      <Text style={styles.hometext1}>GB Whatsapp</Text>
+
+      <View style={styles.navistylebar1}>
+      <Text style={styles.navitext}>Messages</Text>
+      <Icon name="bell" size={30} color="black" style={styles.navchatimage1} />
+      <Image source={{uri: "http://10.0.2.2/react_chat_php/"+username}} style={styles.navImage}></Image>
+      </View>
+
+
       <View style={styles.homeview1}>
         <TextInput style={styles.homeinput1} autoCorrect={false} onChangeText={p} ></TextInput>
 
@@ -130,6 +146,38 @@ function itemUI({item}) {
 
 
 const styles = StyleSheet.create({
+
+  navistylebar1:{
+
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    backgroundColor:'#FFFEF2',
+    width:'100%',   
+    marginBottom:10,
+    height:60,
+  },
+
+  navitext:{
+    fontSize: 28,
+    paddingVertical: 5,
+    color: 'black',
+    fontWeight:'bold',
+    left:30,
+  },
+
+  navImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    right:20,
+  },
+
+  navchatimage1: {
+    //paddingHorizontal: 10,
+    left:80,
+
+  },
   chatbarview: {
     width: '90%',
     flexDirection: 'row',
